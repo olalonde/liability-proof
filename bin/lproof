@@ -12,6 +12,10 @@ OptionParser.new do |opts|
     options[:action] = 'generate'
   end
 
+  opts.on("-c", "--check", "check") do
+    options[:action] = 'check'
+  end
+
   opts.on("-f", "--file [accounts.json]", "Specify the source file contains accounts data, defaults to accounts.json.") do |f|
     options[:file] = f
   end

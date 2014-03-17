@@ -2,7 +2,7 @@ module LiabilityProof
   class Tree
 
     class InteriorNode < Struct.new(:left, :right, :value, :hash)
-      include Node
+      include ::LiabilityProof::Tree::Node
 
       def initialize(left, right)
         super(left, right)

@@ -2,12 +2,12 @@ require 'base64'
 require 'bigdecimal'
 require 'openssl'
 
-require_relative 'tree/node'
-require_relative 'tree/leaf_node'
-require_relative 'tree/interior_node'
-
 module LiabilityProof
   class Tree
+
+    autoload :Node, 'liability-proof/tree/node'
+    autoload :LeafNode, 'liability-proof/tree/leaf_node'
+    autoload :InteriorNode, 'liability-proof/tree/interior_node'
 
     attr :root, :indices
 

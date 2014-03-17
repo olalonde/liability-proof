@@ -13,7 +13,7 @@ module LiabilityProof
       when 'generate'
         generate
       when 'check'
-        check options[:root], options[:file]
+        check @options[:root], @options[:file]
       else
         puts "Error: You must use either -g to generate json for accounts or -c to check certain partial tree is valid."
         exit 1
@@ -57,6 +57,15 @@ module LiabilityProof
     def check(root_json, partial_tree_json)
       root         = JSON.parse File.read(root_json)
       partial_tree = JSON.parse File.read(partial_tree_json)
+
+      verifier = Verifier.new(root, partial_tree)
+      if verifier.match?
+        puts "Partial tree verified successfully!\n\n"
+        puts "User: #{verifier.user_node.user}"
+        puts "Balance: #{verifier.user_node.value_string}"
+      else
+        puts "INVALID partial tree!"
+      end
     end
 
   end

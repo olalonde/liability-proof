@@ -2,7 +2,7 @@ module LiabilityProof
   class Tree
 
     class LeafNode < Struct.new(:user, :value, :nonce, :hash)
-      include Node
+      include ::LiabilityProof::Tree::Node
 
       def initialize(account)
         value = BigDecimal.new(account['value'] || account['balance'])
