@@ -13,6 +13,7 @@ module LiabilityProof
       when 'generate'
         generate
       when 'check'
+        check options[:root], options[:file]
       else
         puts "Error: You must use either -g to generate json for accounts or -c to check certain partial tree is valid."
         exit 1
@@ -51,6 +52,11 @@ module LiabilityProof
       File.open('root.json', 'w') do |f|
         f.write JSON.dump(json)
       end
+    end
+
+    def check(root_json, partial_tree_json)
+      root         = JSON.parse File.read(root_json)
+      partial_tree = JSON.parse File.read(partial_tree_json)
     end
 
   end

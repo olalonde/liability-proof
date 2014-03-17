@@ -4,7 +4,7 @@ module LiabilityProof
     module Node
 
       def as_json
-        { value: value_string, hash: hash }
+        { 'value' => value_string, 'hash' => hash }
       end
 
       def value_string

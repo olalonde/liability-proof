@@ -15,6 +15,10 @@ OptionParser.new do |opts|
   opts.on("-f", "--file [accounts.json]", "Specify the source file contains accounts data, defaults to accounts.json.") do |f|
     options[:file] = f
   end
+
+  opts.on("-r", "--root root.json", "Specify the root json to check with") do |f|
+    options[:root] = f
+  end
 end.parse!
 
 LiabilityProof::Command.new(options).execute!

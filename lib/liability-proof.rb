@@ -2,6 +2,7 @@ module LiabilityProof
 
   autoload :Command, 'liability-proof/command'
   autoload :Tree, 'liability-proof/tree'
+  autoload :Verifier, 'liability-proof/verifier'
 
   extend self
 

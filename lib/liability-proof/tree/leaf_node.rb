@@ -5,11 +5,15 @@ module LiabilityProof
       include Node
 
       def initialize(account)
-        value = BigDecimal.new account['balance']
+        value = BigDecimal.new(account['value'] || account['balance'])
         super(account['user'], value)
 
-        self.nonce = generate_nonce
-        self.hash  = generate_hash
+        self.nonce = account['nonce'] || generate_nonce
+        self.hash  = account['hash']  || generate_hash
+
+        if account['user'] && account['hash'] && account['nonce']
+          raise ArgumentError, "Hash doesn't match" if generate_hash != account['hash']
+        end
       end
 
       private
