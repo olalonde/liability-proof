@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'json'
 require 'optparse'
 require 'liability-proof'
 
@@ -18,22 +17,4 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-case options[:action]
-when 'generate'
-  accounts = JSON.parse File.read(options[:file])
-  tree     = LiabilityProof::Tree.new accounts
-
-  File.open('root.json', 'w') do |f|
-    json = {
-      root: {
-        hash:  tree.root.hash,
-        value: tree.root.value.to_s('F')
-      }
-    }
-    f.write JSON.dump(json)
-  end
-when 'check'
-else
-  puts "Error: You must use either -g to generate json for accounts or -c to check certain partial tree is valid."
-  exit 1
-end
+LiabilityProof::Command.new(options).execute!

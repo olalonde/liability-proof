@@ -1,5 +1,6 @@
 module LiabilityProof
 
+  autoload :Command, 'liability-proof/command'
   autoload :Tree, 'liability-proof/tree'
 
   extend self
