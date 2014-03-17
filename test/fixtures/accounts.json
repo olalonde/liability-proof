@@ -1,0 +1,74 @@
+[
+  {
+    "user": "jan",
+    "balance": "12.13"
+  },
+  {
+    "user": "olalonde",
+    "balance": "400.45"
+  },
+  {
+    "user": "gmaxwell",
+    "balance": "690.05"
+  },
+  {
+    "user": "satoshi",
+    "balance": "10000.00"
+  },
+  {
+    "user": "luke-jr",
+    "balance": "300.00"
+  },
+  {
+    "user": "sipa",
+    "balance": "3000.27"
+  },
+  {
+    "user": "codeshark",
+    "balance": "200.10"
+  },
+  {
+    "user": "gribble",
+    "balance": "15.45"
+  },
+  {
+    "user": "alice",
+    "balance": "0.00"
+  },
+  {
+    "user": "bob",
+    "balance": "12.00"
+  },
+  {
+    "user": "charlie",
+    "balance": "9427.88"
+  },
+  {
+    "user": "mark",
+    "balance": "462.76"
+  },
+  {
+    "user": "anax",
+    "balance": "12.99"
+  },
+  {
+    "user": "gavin",
+    "balance": "3020.14"
+  },
+  {
+    "user": "stacy",
+    "balance": "68.00"
+  },
+  {
+    "user": "justin",
+    "balance": "3.00"
+  },
+  {
+    "user": "einstein",
+    "balance": "39.91"
+  },
+  {
+    "user": "picasso",
+    "balance": "83.19"
+  }
+]
