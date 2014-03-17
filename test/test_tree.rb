@@ -43,8 +43,15 @@ class TestTree < Minitest::Test
   end
 
   def test_tree_generation_with_empty_accounts
-    tree = LiabilityProof::Tree.new []
-    assert_equal nil, tree.root
+    assert_raises ArgumentError do
+      LiabilityProof::Tree.new []
+    end
+  end
+
+  def test_tree_indices
+    tree = LiabilityProof::Tree.new accounts
+    assert_equal [:left, :left, :left, :left, :left], tree.indices['jan']
+    assert_equal [:right, :right], tree.indices['picasso']
   end
 
 end

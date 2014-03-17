@@ -47,18 +47,21 @@ module LiabilityProof
     end
 
 
-    attr :root
+    attr :root, :indices
 
     def initialize(accounts)
+      raise ArgumentError, 'accounts is empty' unless accounts && accounts.size > 0
+
       @accounts = accounts
-      generate
+      @root     = generate
+      @indices  = Hash[index_leaves(@root)]
     end
 
     private
 
     def generate
       leaves = @accounts.map {|a| LeafNode.new(a) }
-      @root = combine leaves
+      combine leaves
     end
 
     def combine(nodes)
@@ -71,6 +74,18 @@ module LiabilityProof
       end
 
       combine parents
+    end
+
+    # Walk the tree and produce indices, each index include the destination
+    # leaf and the path from given node to it.
+    #
+    # The path is expressed as an array of directions, e.g. :left, :right
+    def index_leaves(node, path=[])
+      if node.is_a?(LeafNode)
+        [[node.user, path]]
+      else
+        index_leaves(node.left, path+[:left]) + index_leaves(node.right, path+[:right])
+      end
     end
 
   end
