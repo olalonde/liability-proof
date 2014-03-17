@@ -6,14 +6,10 @@ def accounts
   @accounts ||= JSON.parse File.read(File.expand_path('../fixtures/accounts.json', __FILE__))
 end
 
-def to_partial_tree_json(partial_tree)
-  JSON.parse(JSON.dump({
-    partial_tree: partial_tree
-  }))
+def root_json_path
+  File.expand_path '../fixtures/root.json', __FILE__
 end
 
-def to_root_json(root)
-  JSON.parse(JSON.dump({
-    root: root
-  }))
+def partial_tree_json_path
+  File.expand_path '../fixtures/jan.json', __FILE__
 end
