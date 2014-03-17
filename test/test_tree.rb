@@ -1,6 +1,6 @@
 require 'helper'
 
-class TestTree < Minitest::Test
+class TestTree < MiniTest::Unit::TestCase
 
   def test_leaf_node
     node = LiabilityProof::Tree::LeafNode.new({
@@ -54,16 +54,16 @@ class TestTree < Minitest::Test
     assert_equal [:right, :right], tree.indices['picasso']
   end
 
-  def test_tree_verification_path
+  def test_tree_partial_tree
     tree = LiabilityProof::Tree.new accounts
 
-    path = tree.verification_path('jan')
-    assert_equal 'jan', path.first.user
-    assert_equal [:right, :right, :right, :right, :right], path.last.map(&:first)
+    partial   = tree.partial('jan')
+    leaf_data = partial[:left][:left][:left][:left][:left][:data]
 
-    path = tree.verification_path('picasso')
-    assert_equal 'picasso', path.first.user
-    assert_equal [:left, :left], path.last.map(&:first)
+    assert_equal 'jan', leaf_data[:user]
+    assert_equal '12.13', leaf_data[:value]
+    assert_equal true, leaf_data.has_key?(:hash)
+    assert_equal true, leaf_data.has_key?(:nonce)
   end
 
 end

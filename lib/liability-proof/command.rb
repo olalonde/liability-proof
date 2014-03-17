@@ -1,4 +1,5 @@
 require 'json'
+require 'fileutils'
 
 module LiabilityProof
   class Command
@@ -25,16 +26,29 @@ module LiabilityProof
       tree     = LiabilityProof::Tree.new accounts
 
       write_root_json(tree)
+
+      dir = 'partial_trees'
+      FileUtils.mkdir dir unless File.exists?(dir)
+      tree.indices.keys.each {|user| write_partial_tree(dir, tree, user) }
+    end
+
+    def write_partial_tree(dir, tree, user)
+      json = { partial_tree: tree.partial(user) }
+
+      File.open(File.join(dir, "#{user}.json"), 'w') do |f|
+        f.write JSON.dump(json)
+      end
     end
 
     def write_root_json(tree)
-      File.open('root.json', 'w') do |f|
-        json = {
-          root: {
-            hash:  tree.root.hash,
-            value: tree.root.value.to_s('F')
-          }
+      json = {
+        root: {
+          hash:  tree.root.hash,
+          value: tree.root.value.to_s('F')
         }
+      }
+
+      File.open('root.json', 'w') do |f|
         f.write JSON.dump(json)
       end
     end
