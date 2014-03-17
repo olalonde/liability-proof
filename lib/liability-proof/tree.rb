@@ -57,7 +57,25 @@ module LiabilityProof
       @indices  = Hash[index_leaves(@root)]
     end
 
+    def verification_path(user)
+      _verification_path @root, @indices[user], []
+    end
+
     private
+
+    def _verification_path(node, index, path)
+      if node.is_a?(LeafNode)
+        [node, path]
+      else
+        follow_direction = index.shift
+        other_direction  = follow_direction == :left ? :right : :left
+        follow_child     = node.send follow_direction
+        other_child      = node.send other_direction
+
+        path.unshift [other_direction, other_child]
+        _verification_path follow_child, index, path
+      end
+    end
 
     def generate
       leaves = @accounts.map {|a| LeafNode.new(a) }
@@ -80,11 +98,11 @@ module LiabilityProof
     # leaf and the path from given node to it.
     #
     # The path is expressed as an array of directions, e.g. :left, :right
-    def index_leaves(node, path=[])
+    def index_leaves(node, index=[])
       if node.is_a?(LeafNode)
-        [[node.user, path]]
+        [[node.user, index]]
       else
-        index_leaves(node.left, path+[:left]) + index_leaves(node.right, path+[:right])
+        index_leaves(node.left, index+[:left]) + index_leaves(node.right, index+[:right])
       end
     end
 

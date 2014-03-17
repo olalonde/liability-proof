@@ -54,4 +54,16 @@ class TestTree < Minitest::Test
     assert_equal [:right, :right], tree.indices['picasso']
   end
 
+  def test_tree_verification_path
+    tree = LiabilityProof::Tree.new accounts
+
+    path = tree.verification_path('jan')
+    assert_equal 'jan', path.first.user
+    assert_equal [:right, :right, :right, :right, :right], path.last.map(&:first)
+
+    path = tree.verification_path('picasso')
+    assert_equal 'picasso', path.first.user
+    assert_equal [:left, :left], path.last.map(&:first)
+  end
+
 end
