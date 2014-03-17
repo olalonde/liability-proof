@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'json'
+require 'optparse'
+require 'liability-proof'
+
+options = {:file => 'accounts.json'}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$0} [options]"
+
+  opts.on("-g", "--generate", "Generate json of root node and partial trees.") do
+    options[:action] = 'generate'
+  end
+
+  opts.on("-f", "--file [accounts.json]", "Specify the source file contains accounts data, defaults to accounts.json.") do |f|
+    options[:file] = f
+  end
+end.parse!
+
+case options[:action]
+when 'generate'
+  accounts = JSON.parse File.read(options[:file])
+  tree     = LiabilityProof::Tree.new accounts
+
+  File.open('root.json', 'w') do |f|
+    json = {
+      root: {
+        hash:  tree.root.hash,
+        value: tree.root.value.to_s('F')
+      }
+    }
+    f.write JSON.dump(json)
+  end
+when 'check'
+else
+  puts "Error: You must use either -g to generate json for accounts or -c to check certain partial tree is valid."
+  exit 1
+end

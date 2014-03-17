@@ -13,5 +13,6 @@ Gem::Specification.new do |s|
   s.description = "Check https://iwilcox.me.uk/2014/proving-bitcoin-reserves for more details."
   s.license     = 'MIT'
 
-  s.files = Dir["{lib}/**/*"] + ["README.markdown"]
+  s.executables = ['lproof'] 
+  s.files       = Dir["{bin,lib}/**/*"] + ["README.markdown"]
 end
