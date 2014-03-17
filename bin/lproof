@@ -1,28 +1,40 @@
 #!/usr/bin/env ruby
 
-require 'optparse'
 require 'liability-proof'
+require 'optparse'
 
-options = {:file => 'accounts.json'}
+options = {}
 
-OptionParser.new do |opts|
-  opts.banner = "Usage: #{$0} [options]"
+opt_parser = OptionParser.new do |opt|
+  opt.banner = "Usage: #{$0} COMMAND [OPTIONS]"
+  opt.separator ""
+  opt.separator "Commands"
+  opt.separator "    generate: generate json of root node and partial trees"
+  opt.separator "    verify: verify specified partial tree is valid (matches root node)"
+  opt.separator ""
+  opt.separator "Options"
 
-  opts.on("-g", "--generate", "Generate json of root node and partial trees.") do
-    options[:action] = 'generate'
-  end
-
-  opts.on("-c", "--check", "check") do
-    options[:action] = 'check'
-  end
-
-  opts.on("-f", "--file [accounts.json]", "Specify the source file contains accounts data, defaults to accounts.json.") do |f|
+  opt.on("-f", "--file source.json", "Specify source file. For generate command, it should contain accounts data; for verify command, it should contain the partial tree.") do |f|
     options[:file] = f
   end
 
-  opts.on("-r", "--root root.json", "Specify the root json to check with") do |f|
+  opt.on("-r", "--root root.json", "Specify root node data file. For generate command it's the destination to write data; for verify command it's the source to read data.") do |f|
     options[:root] = f
   end
-end.parse!
 
-LiabilityProof::Command.new(options).execute!
+  options[:partial_trees_dir] = 'partial_trees'
+  opt.on("--partial-trees-dir DIR", "Specify the directory to store generated partial tree json files, default to 'partial_trees'.") do |d|
+    options[:partial_trees_dir] = d
+  end
+end
+
+opt_parser.parse!
+
+case ARGV[0]
+when 'generate'
+  LiabilityProof::Generator.new(options).write!
+when 'verify'
+  LiabilityProof::Verifier.new(options).verify!
+else
+  puts opt_parser
+end

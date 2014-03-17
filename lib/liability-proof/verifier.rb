@@ -1,21 +1,41 @@
-require_relative 'tree/node'
-require_relative 'tree/leaf_node'
-require_relative 'tree/interior_node'
+require 'json'
 
 module LiabilityProof
   class Verifier
 
-    attr :user_node
+    def initialize(options)
+      @root_path = options.delete(:root) || 'root.json'
+      @partial_tree_path = options.delete(:file)
+    end
 
-    def initialize(root_json, partial_tree_json)
-      @expect_root = root_json['root']
-      @partial_tree = partial_tree_json['partial_tree']
+    def root_json
+      @root_json ||= JSON.parse File.read(@root_path)
+    end
+
+    def partial_tree_json
+      @partial_tree_json ||= JSON.parse File.read(@partial_tree_path)
+    end
+
+    def expect_root
+      root_json['root']
     end
 
     def match?
-      reduce(@partial_tree).as_json == @expect_root
+      partial_tree = partial_tree_json['partial_tree']
+      reduce(partial_tree).as_json == expect_root
+    end
+
+    def verify!
+      if match?
+        puts "Partial tree verified successfully!\n\n"
+        puts "User: #{@user_node.user}"
+        puts "Balance: #{@user_node.value_string}"
+      else
+        raise "Mismatch! Expected root: #{expect_root.inspect}"
+      end
     rescue
-      false
+      puts "INVALID partial tree!"
+      puts "ERROR: #{$!}"
     end
 
     private
