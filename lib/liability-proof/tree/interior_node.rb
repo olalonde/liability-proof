@@ -11,10 +11,6 @@ module LiabilityProof
         self.hash  = generate_hash
       end
 
-      def as_json
-        { value: value_string, hash: hash }
-      end
-
       private
 
       def generate_hash

@@ -21,24 +21,31 @@ module LiabilityProof
 
     def partial(user)
       h = {data: nil}
-      _partial @root, @indices[user], h
+      _partial user, @root, @indices[user], h
       h
     end
 
     private
 
-    def _partial(node, index, acc)
+    def _partial(user, node, index, acc)
       if node.is_a?(LeafNode)
         acc[:data] = node.as_json
+
+        if node.user == user
+          acc[:data].merge!({
+            user:  user,
+            nonce: node.nonce
+          })
+        end
       else
         follow_direction = index.shift
         other_direction  = follow_direction == :left ? :right : :left
         follow_child     = node.send follow_direction
         other_child      = node.send other_direction
 
-        acc[other_direction] = other_child.as_json
-        acc[follow_direction] = {data: nil}
-        _partial follow_child, index, acc[follow_direction]
+        acc[other_direction]  = { data: other_child.as_json }
+        acc[follow_direction] = { data: nil }
+        _partial user, follow_child, index, acc[follow_direction]
       end
     end
 

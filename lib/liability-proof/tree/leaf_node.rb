@@ -12,13 +12,6 @@ module LiabilityProof
         self.hash  = generate_hash
       end
 
-      def as_json
-        { value: value_string,
-          hash:  hash,
-          user:  user,
-          nonce: nonce }
-      end
-
       private
 
       # a 16 bytes random string encoded in 32 hex digits

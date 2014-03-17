@@ -56,14 +56,17 @@ class TestTree < MiniTest::Unit::TestCase
 
   def test_tree_partial_tree
     tree = LiabilityProof::Tree.new accounts
+    partial    = tree.partial('jan')
 
-    partial   = tree.partial('jan')
-    leaf_data = partial[:left][:left][:left][:left][:left][:data]
-
+    leaf_data  = partial[:left][:left][:left][:left][:left][:data]
     assert_equal 'jan', leaf_data[:user]
     assert_equal '12.13', leaf_data[:value]
     assert_equal true, leaf_data.has_key?(:hash)
     assert_equal true, leaf_data.has_key?(:nonce)
+
+    other_data = partial[:left][:left][:left][:left][:right][:data]
+    assert_nil other_data[:user]
+    assert_nil other_data[:nonce]
   end
 
 end
