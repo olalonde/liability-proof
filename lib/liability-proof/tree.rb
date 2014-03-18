@@ -1,5 +1,4 @@
 require 'base64'
-require 'bigdecimal'
 require 'openssl'
 
 module LiabilityProof
@@ -14,11 +13,12 @@ module LiabilityProof
     def initialize(accounts, options={})
       raise ArgumentError, 'accounts is empty' unless accounts && accounts.size > 0
 
-      @use_float = options.delete(:use_float)
+      @use_float   = options.delete(:use_float)
+      @float_nonce = options.delete(:float_nonce)
 
-      @accounts  = accounts
-      @root      = generate
-      @indices   = Hash[index_leaves(@root)]
+      @accounts    = accounts
+      @root        = generate
+      @indices     = Hash[index_leaves(@root)]
     end
 
     def root_json
@@ -62,8 +62,24 @@ module LiabilityProof
     end
 
     def generate
-      leaves = @accounts.map {|a| LeafNode.new(a) }
+      leaves = @accounts.map do |a|
+        user  = a['user']
+        value = ::BigDecimal.new a['balance']
+        nonce = a['nonce'] || generate_nonce
+        LeafNode.new(user, value, nonce)
+      end
+
       combine leaves
+    end
+
+    def generate_nonce
+      if @float_nonce
+        # a float number like 0.123456789, for compatibility with blp
+        rand
+      else
+        # a 16 bytes random string encoded in 32 hex digits
+        OpenSSL::Random.random_bytes(16).unpack("H*").first
+      end
     end
 
     def combine(nodes)

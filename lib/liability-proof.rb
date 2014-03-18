@@ -1,4 +1,6 @@
 require 'json'
+require 'bigdecimal'
+require 'awesome_print'
 
 module LiabilityProof
 

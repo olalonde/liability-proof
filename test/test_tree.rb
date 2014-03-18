@@ -2,27 +2,24 @@ require 'helper'
 
 class TestTree < MiniTest::Unit::TestCase
 
+  def test_leaf_node_with_invalid_value
+    assert_raises ArgumentError do
+      LiabilityProof::Tree::LeafNode.new('', '', '')
+    end
+  end
+
   def test_leaf_node
-    node = LiabilityProof::Tree::LeafNode.new({
-      'user' => 'jan',
-      'balance' => '12.13'
-    })
+    node = LiabilityProof::Tree::LeafNode.new('jan', BigDecimal.new('12.13'), '1234567890ABCDEF')
 
     assert_equal 'jan', node.user
     assert_equal BigDecimal.new('12.13'), node.value
-    assert_equal 32, node.nonce.size
+    assert_equal '1234567890ABCDEF', node.nonce
     assert_equal 32, Base64.decode64(node.hash).size
   end
 
   def test_interior_node
-    left = LiabilityProof::Tree::LeafNode.new({
-      'user' => 'jan',
-      'balance' => '12.13'
-    })
-    right = LiabilityProof::Tree::LeafNode.new({
-      'user' => 'zw',
-      'balance' => '20.14'
-    })
+    left = LiabilityProof::Tree::LeafNode.new('jan', BigDecimal.new('12.13'), '')
+    right = LiabilityProof::Tree::LeafNode.new('zw', BigDecimal.new('20.14'), '')
 
     node  = LiabilityProof::Tree::InteriorNode.new left, right
     assert_equal left,  node.left
@@ -58,6 +55,7 @@ class TestTree < MiniTest::Unit::TestCase
     leaf_data = partial['left']['left']['left']['left']['left']['data']
     assert_equal 'jan', leaf_data['user']
     assert_equal '12.13', leaf_data['value']
+    assert_equal 32, leaf_data['nonce'].size
     assert_equal true, leaf_data.has_key?('hash')
     assert_equal true, leaf_data.has_key?('nonce')
 

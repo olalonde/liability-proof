@@ -30,10 +30,19 @@ opt_parser = OptionParser.new do |opt|
   end
 
   options[:use_float] = false
-  opt.on("-F", "--use-float", "Print numbers as Float number instead of String in json files. This option is only provided to generating data in compatible format with some verificatioin tools, don't use it unless neccessary. Default to false.") do |f|
+  opt.on("-F", "--use-float", "Print numbers as Float number instead of String in json files. This option is only provided to generating data in compatible format with some verification tools, don't use it unless neccessary. Default to false.") do |f|
     options[:use_float] = true
   end
 
+  options[:float_nonce] = false
+  opt.on("--float-nonce", "Use float number as nonce. This option is only provided for compatibility with some verification tools. Default to false.") do |f|
+    options[:float_nonce] = true
+  end
+
+  opt.on("-b", "--blp-format", "Generate json in blind-liability-proof format. Default to false.") do |f|
+    options[:use_float]   = true
+    options[:float_nonce] = true
+  end
 end
 
 opt_parser.parse!
