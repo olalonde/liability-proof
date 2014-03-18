@@ -1,8 +1,11 @@
+require 'json'
+
 module LiabilityProof
 
-  autoload :Tree,      'liability-proof/tree'
-  autoload :Generator, 'liability-proof/generator'
-  autoload :Verifier,  'liability-proof/verifier'
+  autoload :Tree,          'liability-proof/tree'
+  autoload :Generator,     'liability-proof/generator'
+  autoload :Verifier,      'liability-proof/verifier'
+  autoload :PrettyPrinter, 'liability-proof/pretty_printer'
 
   module_function
 

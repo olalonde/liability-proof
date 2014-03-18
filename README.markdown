@@ -26,9 +26,12 @@ As command line tool:
     # work well with it, so -F is provided for compatibility only.
     lproof generate -f accounts.json -F
 
-    # verify specified partial tree is valid, i.e. the root node calculated from
+    # Verify specified partial tree is valid, i.e. the root node calculated from
     # from the partial tree matches the root node in root.json
     lproof verify -r root.json -f partial_trees/jan.json
+
+    # Pretty print a partial tree or any other json file
+    lproof pp -f partial_trees/jan.json
 
 As library: check `LiabilityProof::Generator` and `LiabilityProof::Verifier` for example.
 

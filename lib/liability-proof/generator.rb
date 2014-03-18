@@ -1,4 +1,3 @@
-require 'json'
 require 'fileutils'
 
 module LiabilityProof

@@ -15,4 +15,6 @@ Gem::Specification.new do |s|
 
   s.executables = ['lproof'] 
   s.files       = Dir["{bin,lib}/**/*"] + ["README.markdown"]
+
+  s.add_runtime_dependency('awesome_print')
 end
