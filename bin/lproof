@@ -26,6 +26,12 @@ opt_parser = OptionParser.new do |opt|
   opt.on("--partial-trees-dir DIR", "Specify the directory to store generated partial tree json files, default to 'partial_trees'.") do |d|
     options[:partial_trees_dir] = d
   end
+
+  options[:use_float] = false
+  opt.on("-F", "--use-float", "Print numbers as Float number instead of String in json files. This option is only provided to generating data in compatible format with some verificatioin tools, don't use it unless neccessary. Default to false.") do |f|
+    options[:use_float] = true
+  end
+
 end
 
 opt_parser.parse!

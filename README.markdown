@@ -21,6 +21,11 @@ As command line tool:
     # https://github.com/olalonde/blind-liability-proof#serialized-data-formats-work-in-progress--draft
     lproof generate -f accounts.json
 
+    # Use -F switch to save numbers as Float instead of String. Save numbers as
+    # String preserve precision well, but some other verification tools doesn't
+    # work well with it, so -F is provided for compatibility only.
+    lproof generate -f accounts.json -F
+
     # verify specified partial tree is valid, i.e. the root node calculated from
     # from the partial tree matches the root node in root.json
     lproof verify -r root.json -f partial_trees/jan.json

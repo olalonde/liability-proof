@@ -12,7 +12,7 @@ module LiabilityProof
       FileUtils.mkdir @partial_trees_dir unless File.exists?(@partial_trees_dir)
 
       accounts = JSON.parse File.read(@accounts_path)
-      @tree    = LiabilityProof::Tree.new accounts
+      @tree    = LiabilityProof::Tree.new accounts, options
     end
 
     def write!
