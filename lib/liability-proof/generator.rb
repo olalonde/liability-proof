@@ -15,16 +15,6 @@ module LiabilityProof
       @tree    = LiabilityProof::Tree.new accounts
     end
 
-    def root_json
-      { 'root' => {
-          'hash'  => @tree.root.hash,
-          'value' => @tree.root.value_string }}
-    end
-
-    def partial_tree_json(user)
-      { 'partial_tree' => @tree.partial(user) }
-    end
-
     def write!
       write_root_json
       @tree.indices.keys.each {|user| write_partial_tree(user) }
@@ -34,13 +24,13 @@ module LiabilityProof
 
     def write_root_json
       File.open(@root_path, 'w') do |f|
-        f.write JSON.dump(root_json)
+        f.write JSON.dump(@tree.root_json)
       end
     end
 
     def write_partial_tree(user)
       File.open(File.join(@partial_trees_dir, "#{user}.json"), 'w') do |f|
-        f.write JSON.dump(partial_tree_json(user))
+        f.write JSON.dump(@tree.partial_json(user))
       end
     end
 

@@ -34,7 +34,6 @@ class TestTree < MiniTest::Unit::TestCase
   end
 
   def test_tree_generation
-    tree = LiabilityProof::Tree.new accounts
     sum = accounts
       .map {|a| BigDecimal.new a['balance'] }
       .inject(0, &:+)
@@ -49,13 +48,11 @@ class TestTree < MiniTest::Unit::TestCase
   end
 
   def test_tree_indices
-    tree = LiabilityProof::Tree.new accounts
     assert_equal [:left, :left, :left, :left, :left], tree.indices['jan']
     assert_equal [:right, :right], tree.indices['picasso']
   end
 
   def test_tree_partial_tree
-    tree    = LiabilityProof::Tree.new accounts
     partial = tree.partial('jan')
 
     leaf_data = partial['left']['left']['left']['left']['left']['data']
@@ -67,6 +64,20 @@ class TestTree < MiniTest::Unit::TestCase
     other_data = partial['left']['left']['left']['left']['right']['data']
     assert_nil other_data['user']
     assert_nil other_data['nonce']
+  end
+
+  def test_tree_partial_json
+    assert_equal 'partial_tree', tree.partial_json('jan').keys.first
+  end
+
+  def test_tree_root_json
+    assert_equal "27748.32", tree.root_json['root']['value']
+  end
+
+  private
+
+  def tree
+    @tree ||= LiabilityProof::Tree.new accounts
   end
 
 end

@@ -19,10 +19,20 @@ module LiabilityProof
       @indices  = Hash[index_leaves(@root)]
     end
 
+    def root_json
+      { 'root' => {
+          'hash'  => root.hash,
+          'value' => root.value_string }}
+    end
+
     def partial(user)
       h = { 'data' => nil }
       _partial user, @root, @indices[user].dup, h
       h
+    end
+
+    def partial_json(user)
+      { 'partial_tree' => partial(user) }
     end
 
     private
