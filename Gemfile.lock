@@ -1,0 +1,16 @@
+PATH
+  remote: .
+  specs:
+    liability-proof (0.0.4)
+      awesome_print
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    awesome_print (1.2.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  liability-proof!
