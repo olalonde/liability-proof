@@ -14,7 +14,6 @@ module LiabilityProof
       raise ArgumentError, 'accounts is empty' unless accounts && accounts.size > 0
 
       @use_float   = options.delete(:use_float)
-      @float_nonce = options.delete(:float_nonce)
 
       @accounts    = accounts
       @root        = generate
@@ -73,13 +72,8 @@ module LiabilityProof
     end
 
     def generate_nonce
-      if @float_nonce
-        # a float number like 0.123456789, for compatibility with blp
-        rand
-      else
-        # a 16 bytes random string encoded in 32 hex digits
-        OpenSSL::Random.random_bytes(16).unpack("H*").first
-      end
+      # a 16 bytes random string encoded in 32 hex digits
+      OpenSSL::Random.random_bytes(16).unpack("H*").first
     end
 
     def combine(nodes)

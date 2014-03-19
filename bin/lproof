@@ -34,15 +34,6 @@ opt_parser = OptionParser.new do |opt|
     options[:use_float] = true
   end
 
-  options[:float_nonce] = false
-  opt.on("--float-nonce", "Use float number as nonce. This option is only provided for compatibility with some verification tools. Default to false.") do |f|
-    options[:float_nonce] = true
-  end
-
-  opt.on("-b", "--blp-format", "Generate json in blind-liability-proof format. Default to false.") do |f|
-    options[:use_float]   = true
-    options[:float_nonce] = true
-  end
 end
 
 opt_parser.parse!
