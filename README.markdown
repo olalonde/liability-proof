@@ -1,6 +1,8 @@
 Liability Proof
 ===============
 
+[![Build Status](https://travis-ci.org/peatio/liability-proof.png?branch=master)](https://travis-ci.org/peatio/liability-proof)
+
 If you're not familiar with *liability proof* or *the Merkle approach*, check this page: [Proving Your Bitcoin Reserves](https://iwilcox.me.uk/2014/proving-bitcoin-reserves). Basically, every mordern exchanges should prove they really hold the bitcoins/money they claim to.
 
 ### Requirements ###
