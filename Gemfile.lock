@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    liability-proof (0.0.4)
+    liability-proof (0.0.5)
       awesome_print
 
 GEM
