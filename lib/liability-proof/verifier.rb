@@ -21,9 +21,7 @@ module LiabilityProof
     def match?
       partial_tree = partial_tree_json['partial_tree']
 
-      use_float = expect_root['sum'].is_a?(Float)
-      @reduced_root = reduce(partial_tree).as_json(use_float)
-
+      @reduced_root = reduce(partial_tree).as_json
       @reduced_root == expect_root
     end
 

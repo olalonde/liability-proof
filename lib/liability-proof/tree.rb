@@ -13,8 +13,6 @@ module LiabilityProof
     def initialize(accounts, options={})
       raise ArgumentError, 'accounts is empty' unless accounts && accounts.size > 0
 
-      @use_float   = options.delete(:use_float)
-
       @accounts    = accounts
       @root        = generate
       @indices     = Hash[index_leaves(@root)]
@@ -23,7 +21,7 @@ module LiabilityProof
     def root_json
       { 'root' => {
           'hash'  => root.hash,
-          'sum' => root.formatted_sum(@use_float) }}
+          'sum' => root.sum_string }}
     end
 
     def partial(user)
@@ -40,7 +38,7 @@ module LiabilityProof
 
     def _partial(user, node, index, acc)
       if node.is_a?(LeafNode)
-        acc['data'] = node.as_json(@use_float)
+        acc['data'] = node.as_json
 
         if node.user == user
           acc['data'].merge!({
@@ -54,7 +52,7 @@ module LiabilityProof
         follow_child     = node.send follow_direction
         other_child      = node.send other_direction
 
-        acc[other_direction.to_s]  = { 'data' => other_child.as_json(@use_float) }
+        acc[other_direction.to_s]  = { 'data' => other_child.as_json }
         acc[follow_direction.to_s] = { 'data' => nil }
         _partial user, follow_child, index, acc[follow_direction.to_s]
       end

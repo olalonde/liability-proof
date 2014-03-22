@@ -72,11 +72,6 @@ class TestTree < MiniTest::Unit::TestCase
     assert_equal "27748.32", tree.root_json['root']['sum']
   end
 
-  def test_tree_root_json_with_float
-    tree = LiabilityProof::Tree.new accounts, use_float: true
-    assert_equal 27748.32, tree.root_json['root']['sum']
-  end
-
   private
 
   def tree
