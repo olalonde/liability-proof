@@ -23,7 +23,7 @@ module LiabilityProof
     def root_json
       { 'root' => {
           'hash'  => root.hash,
-          'value' => root.formatted_value(@use_float) }}
+          'sum' => root.formatted_sum(@use_float) }}
     end
 
     def partial(user)
@@ -63,9 +63,9 @@ module LiabilityProof
     def generate
       leaves = @accounts.map do |a|
         user  = a['user']
-        value = ::BigDecimal.new a['balance']
+        sum   = ::BigDecimal.new a['balance']
         nonce = a['nonce'] || generate_nonce
-        LeafNode.new(user, value, nonce)
+        LeafNode.new(user, sum, nonce)
       end
 
       combine leaves

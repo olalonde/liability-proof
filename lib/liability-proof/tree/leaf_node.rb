@@ -1,13 +1,13 @@
 module LiabilityProof
   class Tree
 
-    class LeafNode < Struct.new(:user, :value, :nonce, :hash)
+    class LeafNode < Struct.new(:user, :sum, :nonce, :hash)
       include ::LiabilityProof::Tree::Node
 
-      def initialize(user, value, nonce, hash=nil)
-        raise ArgumentError, "value must be BigDecimal" unless value.is_a?(BigDecimal)
+      def initialize(user, sum, nonce, hash=nil)
+        raise ArgumentError, "sum must be BigDecimal" unless sum.is_a?(BigDecimal)
 
-        super(user, value, nonce)
+        super(user, sum, nonce)
         self.hash  = hash || generate_hash
 
         if user && hash && nonce
@@ -19,7 +19,7 @@ module LiabilityProof
 
       # a sha256 hash encoded in 64 hex digits
       def generate_hash
-        LiabilityProof.sha256_base64 "#{user}|#{value_string}|#{nonce}"
+        LiabilityProof.sha256_base64 "#{user}|#{sum_string}|#{nonce}"
       end
 
     end

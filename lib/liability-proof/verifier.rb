@@ -21,7 +21,7 @@ module LiabilityProof
     def match?
       partial_tree = partial_tree_json['partial_tree']
 
-      use_float = expect_root['value'].is_a?(Float)
+      use_float = expect_root['sum'].is_a?(Float)
       @reduced_root = reduce(partial_tree).as_json(use_float)
 
       @reduced_root == expect_root
@@ -31,7 +31,7 @@ module LiabilityProof
       if match?
         puts "Partial tree verified successfully!\n\n"
         puts "User: #{@user_node.user}"
-        puts "Balance: #{@user_node.value_string}"
+        puts "Balance: #{@user_node.sum_string}"
       else
         raise "Mismatch! Expected root: #{expect_root.inspect}, calculated root: #{@reduced_root.inspect}"
       end
@@ -51,10 +51,10 @@ module LiabilityProof
     def reduce(node)
       if node['data']
         user  = node['data']['user']
-        value = ::BigDecimal.new node['data']['value'].to_s
+        sum   = ::BigDecimal.new node['data']['sum'].to_s
         nonce = node['data']['nonce']
         hash  = node['data']['hash']
-        leaf = Tree::LeafNode.new user, value, nonce, hash
+        leaf = Tree::LeafNode.new user, sum, nonce, hash
         @user_node = leaf if leaf.user
         leaf
       else

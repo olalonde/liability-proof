@@ -37,9 +37,9 @@ module LiabilityProof
     def lable(node)
       if data = node['data']
         if data['user']
-          "#{data['user']}, #{data['nonce']}, #{data['value']}"
+          "#{data['user']}, #{data['nonce']}, #{data['sum']}"
         else
-          "#{data['value']}, #{data['hash']}"
+          "#{data['sum']}, #{data['hash']}"
         end
       else
         ''

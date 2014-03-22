@@ -12,7 +12,7 @@ class TestTree < MiniTest::Unit::TestCase
     node = LiabilityProof::Tree::LeafNode.new('jan', BigDecimal.new('12.13'), '1234567890ABCDEF')
 
     assert_equal 'jan', node.user
-    assert_equal BigDecimal.new('12.13'), node.value
+    assert_equal BigDecimal.new('12.13'), node.sum
     assert_equal '1234567890ABCDEF', node.nonce
     assert_equal 32, Base64.decode64(node.hash).size
   end
@@ -25,8 +25,8 @@ class TestTree < MiniTest::Unit::TestCase
     assert_equal left,  node.left
     assert_equal right, node.right
 
-    value = (left.value + right.value).to_s('F')
-    hash  = LiabilityProof.sha256_base64 "#{value}#{left.hash}#{right.hash}"
+    sum  = (left.sum + right.sum).to_s('F')
+    hash = LiabilityProof.sha256_base64 "#{sum}#{left.hash}#{right.hash}"
     assert_equal hash, node.hash
   end
 
@@ -35,7 +35,7 @@ class TestTree < MiniTest::Unit::TestCase
       .map {|a| BigDecimal.new a['balance'] }
       .inject(0, &:+)
 
-    assert_equal sum, tree.root.value
+    assert_equal sum, tree.root.sum
   end
 
   def test_tree_generation_with_empty_accounts
@@ -54,7 +54,7 @@ class TestTree < MiniTest::Unit::TestCase
 
     leaf_data = partial['left']['left']['left']['left']['left']['data']
     assert_equal 'jan', leaf_data['user']
-    assert_equal '12.13', leaf_data['value']
+    assert_equal '12.13', leaf_data['sum']
     assert_equal 32, leaf_data['nonce'].size
     assert_equal true, leaf_data.has_key?('hash')
     assert_equal true, leaf_data.has_key?('nonce')
@@ -69,12 +69,12 @@ class TestTree < MiniTest::Unit::TestCase
   end
 
   def test_tree_root_json
-    assert_equal "27748.32", tree.root_json['root']['value']
+    assert_equal "27748.32", tree.root_json['root']['sum']
   end
 
   def test_tree_root_json_with_float
     tree = LiabilityProof::Tree.new accounts, use_float: true
-    assert_equal 27748.32, tree.root_json['root']['value']
+    assert_equal 27748.32, tree.root_json['root']['sum']
   end
 
   private
