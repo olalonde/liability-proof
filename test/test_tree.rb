@@ -14,7 +14,7 @@ class TestTree < MiniTest::Unit::TestCase
     assert_equal 'jan', node.user
     assert_equal BigDecimal.new('12.13'), node.sum
     assert_equal '1234567890ABCDEF', node.nonce
-    assert_equal 32, Base64.decode64(node.hash).size
+    assert_equal 64, node.hash.size
   end
 
   def test_interior_node

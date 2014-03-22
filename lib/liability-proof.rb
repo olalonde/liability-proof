@@ -12,7 +12,7 @@ module LiabilityProof
   module_function
 
   def sha256_base64(message)
-    Base64.encode64(OpenSSL::Digest::SHA256.new.digest(message)).strip
+    OpenSSL::Digest::SHA256.new.digest(message).unpack('H*').first
   end
 
 end
