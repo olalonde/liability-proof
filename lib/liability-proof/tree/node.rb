@@ -7,6 +7,10 @@ module LiabilityProof
         { 'sum' => sum_string, 'hash' => hash }
       end
 
+      def as_user_json
+        { 'sum' => sum_string, 'nonce' => nonce, 'user' => user }
+      end
+
       def sum_string
         decimal_to_digits sum
       end

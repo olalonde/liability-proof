@@ -36,14 +36,7 @@ module LiabilityProof
 
     def _partial(user, node, index, acc)
       if node.is_a?(LeafNode)
-        acc['data'] = node.as_json
-
-        if node.user == user
-          acc['data'].merge!({
-            'user'  => user,
-            'nonce' => node.nonce
-          })
-        end
+        acc['data'] = node.user == user ? node.as_user_json : node.as_json
       else
         follow_direction = index.shift
         other_direction  = follow_direction == :left ? :right : :left
