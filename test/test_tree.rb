@@ -56,7 +56,7 @@ class TestTree < MiniTest::Unit::TestCase
     assert_equal 'jan', leaf_data['user']
     assert_equal '12.13', leaf_data['sum']
     assert_equal 32, leaf_data['nonce'].size
-    assert_equal true, leaf_data.has_key?('hash')
+    assert_equal false, leaf_data.has_key?('hash')
     assert_equal true, leaf_data.has_key?('nonce')
 
     other_data = partial['left']['left']['left']['left']['right']['data']
@@ -70,6 +70,11 @@ class TestTree < MiniTest::Unit::TestCase
 
   def test_tree_root_json
     assert_equal "27748.32", tree.root_json['root']['sum']
+  end
+
+  def test_tree_root_json_with_currency
+    tree = LiabilityProof::Tree.new accounts, currency: 'CNY'
+    assert_equal 'CNY', tree.root_json['currency']
   end
 
   private

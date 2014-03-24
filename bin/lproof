@@ -29,6 +29,10 @@ opt_parser = OptionParser.new do |opt|
     options[:partial_trees_dir] = d
   end
 
+  opt.on("-c", "--currency code", "Specify the currency code, used by root.json.") do |c|
+    options[:currency] = c
+  end
+
 end
 
 opt_parser.parse!

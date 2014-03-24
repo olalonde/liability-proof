@@ -16,12 +16,18 @@ module LiabilityProof
       @accounts    = accounts
       @root        = generate
       @indices     = Hash[index_leaves(@root)]
+
+      @currency    = options.delete(:currency) || 'BTC'
     end
 
     def root_json
       { 'root' => {
           'hash'  => root.hash,
-          'sum' => root.sum_string }}
+          'sum' => root.sum_string
+        },
+        'currency' => @currency,
+        'timestamp' => Time.now.to_s
+      }
     end
 
     def partial(user)
