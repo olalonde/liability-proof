@@ -25,9 +25,7 @@ module LiabilityProof
     end
 
     def partial(user)
-      h = { 'data' => nil }
-      _partial user, @root, @indices[user].dup, h
-      h
+      _partial user, @root, @indices[user].dup, {}
     end
 
     def partial_json(user)
@@ -53,9 +51,11 @@ module LiabilityProof
         other_child      = node.send other_direction
 
         acc[other_direction.to_s]  = { 'data' => other_child.as_json }
-        acc[follow_direction.to_s] = { 'data' => nil }
+        acc[follow_direction.to_s] = {}
         _partial user, follow_child, index, acc[follow_direction.to_s]
       end
+
+      acc
     end
 
     def generate
