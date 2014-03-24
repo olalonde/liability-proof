@@ -14,7 +14,7 @@ module LiabilityProof
       private
 
       def generate_hash
-        LiabilityProof.sha256_base64 "#{sum_string}#{left.hash}#{right.hash}"
+        LiabilityProof.sha256_base64 "#{sum_string}|#{left.hash}|#{right.hash}"
       end
 
     end
