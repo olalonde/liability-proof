@@ -21,7 +21,7 @@ class TestTree < MiniTest::Unit::TestCase
     left = LiabilityProof::Tree::LeafNode.new('jan', BigDecimal.new('12.13'), '')
     right = LiabilityProof::Tree::LeafNode.new('zw', BigDecimal.new('20.14'), '')
 
-    node  = LiabilityProof::Tree::InteriorNode.new left, right
+    node  = LiabilityProof::Tree::InternalNode.new left, right
     assert_equal left,  node.left
     assert_equal right, node.right
 

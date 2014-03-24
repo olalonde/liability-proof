@@ -6,7 +6,7 @@ module LiabilityProof
 
     autoload :Node, 'liability-proof/tree/node'
     autoload :LeafNode, 'liability-proof/tree/leaf_node'
-    autoload :InteriorNode, 'liability-proof/tree/interior_node'
+    autoload :InternalNode, 'liability-proof/tree/internal_node'
 
     attr :root, :indices
 
@@ -80,7 +80,7 @@ module LiabilityProof
       parents = nodes.each_slice(2).map do |(left, right)|
         # if right is not nil, return combined interior node;
         # otherwise keep the left leaf node
-        right ? InteriorNode.new(left, right) : left
+        right ? InternalNode.new(left, right) : left
       end
 
       combine parents

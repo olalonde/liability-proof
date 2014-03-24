@@ -1,7 +1,7 @@
 module LiabilityProof
   class Tree
 
-    class InteriorNode < Struct.new(:left, :right, :sum, :hash)
+    class InternalNode < Struct.new(:left, :right, :sum, :hash)
       include ::LiabilityProof::Tree::Node
 
       def initialize(left, right)

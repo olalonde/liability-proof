@@ -58,7 +58,7 @@ module LiabilityProof
       else
         left  = reduce node['left']
         right = reduce node['right']
-        Tree::InteriorNode.new(left, right)
+        Tree::InternalNode.new(left, right)
       end
     end
 
