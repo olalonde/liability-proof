@@ -26,7 +26,7 @@ module LiabilityProof
           'sum' => root.sum_string
         },
         'currency' => @currency,
-        'timestamp' => Time.now.to_s
+        'timestamp' => rfc822_format(Time.now)
       }
     end
 
@@ -95,6 +95,10 @@ module LiabilityProof
       else
         index_leaves(node.left, index+[:left]) + index_leaves(node.right, index+[:right])
       end
+    end
+
+    def rfc822_format(time)
+      time.strftime("%a, %d %b %Y %H:%M:%S %z")
     end
 
   end
